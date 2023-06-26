@@ -16,14 +16,16 @@ export default function Home() {
   }, []);
   return (
     <div>
-      <Seo title="Home" />
-      {!movies && <h4>Loading ...</h4>}
-      {movies.map((movie) => (
-        <div className="movie" key={movie.id}>
-          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
-          <h4>{movie.original_title}</h4>
-        </div>
-      ))}
+      <div className="container">
+        <Seo title="Home" />
+        {!movies && <h4>Loading ...</h4>}
+        {movies.map((movie) => (
+          <div className="movie" key={movie.id}>
+            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
+            <h4>{movie.original_title}</h4>
+          </div>
+        ))}
+      </div>
 
       <style jsx global>{`
         .container {
