@@ -1,12 +1,15 @@
 import NavBar from "@/components/NavBar";
 import Seo from "@/components/Seo";
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const API_KEY = "a995ddaefd02120cffba2ce5d93b8eac";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     (async () => {
       const { results } = await (await fetch(`/api/movies`)).json();
@@ -14,16 +17,30 @@ export default function Home() {
       setMovies(results);
     })();
   }, []);
+
+  const router = useRouter();
+  const onClick = () => {
+    router.push(`/movies/${id}`);
+  };
+
   return (
     <div>
       <div className="container">
         <Seo title="Home" />
         {!movies && <h4>Loading ...</h4>}
         {movies.map((movie) => (
-          <div className="movie" key={movie.id}>
-            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
-            <h4>{movie.original_title}</h4>
-          </div>
+          <Link
+            onClick={() => onClick(movie.id)}
+            href={`/movies/${movie.id}`}
+            key={movie.id}
+          >
+            <div className="movie">
+              <img
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              />
+              <h4>{movie.original_title}</h4>
+            </div>
+          </Link>
         ))}
       </div>
 
